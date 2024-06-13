@@ -116,6 +116,7 @@ WSADATA ietuwecwtuecwucuwaa;
     FreeLibrary(hwww);
     return 0;
 }
+```
 ## Obfuscation Note
 
 The variable names and certain parts of the code are obfuscated to evade static analysis detection by Windows Defender. If you want to bypass detection again, please change the file signature and obfuscate the code in different ways, as Windows Defender can capture static patterns.
